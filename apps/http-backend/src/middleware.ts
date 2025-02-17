@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express"
 import jwt from "jsonwebtoken"
-import "dotenv/config";
 import { JWT_SECRET } from "@repo/backend-common/config";
 
 console.log(process.env.JWT_SECRET); // Should print "HELLO"

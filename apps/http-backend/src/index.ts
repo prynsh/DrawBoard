@@ -1,6 +1,5 @@
 import express  from "express";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv"
 import { JWT_SECRET } from "@repo/backend-common/config";
 import { middleWare } from "./middleware";
 import { UserSchema, SingInSchema, CreateRoomSchema } from  "@repo/common/config"
@@ -9,13 +8,10 @@ import { prismaClient  } from "@repo/db/client";
 
 const app = express();
 app.use(express.json());
-dotenv.config();
 
-
-
-app.get("/signup", async (req,res)=>{
-
+app.post("/signup", async (req,res)=>{
     const parsedData = UserSchema.safeParse(req.body);
+
     if(!parsedData.success){
         res.json({
             message:"Incorrect Inputs "
@@ -79,7 +75,7 @@ app.post("/signin", async (req,res)=>{
 
 })
 
-app.get("room", middleWare ,async (req,res)=>{
+app.get("/room", middleWare ,async (req,res)=>{
     const parsedData = CreateRoomSchema.safeParse(req.body);
 
     if(!parsedData.success){
@@ -108,6 +104,21 @@ app.get("room", middleWare ,async (req,res)=>{
             message:"Room already exists"
         })
     }
+})
+
+app.get("chats:roomId", async (req,res)=>{
+    const roomId = Number(req.params.roomId);
+    const messages = await prismaClient.chat.findMany({
+        where:{
+            roomId:roomId
+        },
+        orderBy:{
+            id: "desc"
+        },
+        take:50
+        //order by descending here and display top 50 messages only 
+        
+    })
 })
 
 app.listen(3001);
