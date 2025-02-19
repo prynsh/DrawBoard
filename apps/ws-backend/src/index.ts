@@ -18,7 +18,7 @@ function checkUser(token:string):string| null{
   try{
     const decoded = jwt.verify(token , JWT_SECRET);
     
-    if(typeof decoded == "string"){
+    if(typeof (decoded) == "string"){
       return null;
     }
     if(!decoded || !decoded.userId){
@@ -54,9 +54,8 @@ wss.on('connection',function connection(ws, request){
 
 
    
-   ws.on('mesage',function(data){
+   ws.on('message', async function message(data){
     const parsedData = JSON.parse(data as unknown as string);
-
     if(parsedData.type === "join_room"){
       //check does the room id even exist?
       const user = Users.find(x => x.ws === ws );
@@ -70,17 +69,25 @@ wss.on('connection',function connection(ws, request){
         }
         user.rooms= user?.rooms.filter(x=> x === parsedData.room);
     }
-    if(parsedData.type== " chat"){
+    if(parsedData.type==="chat"){
       const roomId  = parsedData.roomId;
-      const message = parsedData.mesage;
+      const message = parsedData.message;
 
 
       //use queue to send data and then retrieve it 
+      
+      await prismaClient.chat.create({
+        data: {
+          roomId,
+          message,
+          userId
+        }
+      });
 
        Users.forEach(user =>{
         if(user.rooms.includes(roomId)){
           user.ws.send(JSON.stringify({
-            type:"chat",
+            type: "chat",
             message: message,
             roomId
           }))

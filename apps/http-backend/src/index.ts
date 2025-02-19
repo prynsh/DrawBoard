@@ -84,13 +84,15 @@ app.post("/signin", async (req,res)=>{
 
 app.get("/room", middleWare ,async (req,res)=>{
     const parsedData = CreateRoomSchema.safeParse(req.body);
+    try{
 
-    if(!parsedData.success){
-        res.json({
-            message: "Incorrect inputs"
-        })
-        return;
-    }
+        if(!parsedData.success){
+            res.json({
+                message: "Incorrect inputs"
+            })
+            return;
+        }
+    
     //check this in db whether it is present or not and then let them create a room
     //@ts-ignore:TODO 
     const userId = req.userId;
@@ -121,6 +123,11 @@ app.get("/room", middleWare ,async (req,res)=>{
             message:"Room already exists"
         })
     }
+        }catch(e){
+    res.status(411).json({
+        message: "Incorrect inputs"
+    })
+}
 })
 
 app.get("/chats/:roomId", async (req,res)=>{
@@ -154,7 +161,7 @@ app.get("/chats/:roomId", async (req,res)=>{
 
 app.get("/room/:slug", async(req,res) =>{
     const slug = req.params.slug;
-    const room = await prismaClient.room.findMany({
+    const room = await prismaClient.room.findFirst({
         where:{
             slug: slug
         }
