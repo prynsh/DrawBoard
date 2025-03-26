@@ -82,7 +82,7 @@ app.post("/signin", async (req,res)=>{
 
 })
 
-app.get("/room", middleWare ,async (req,res)=>{
+app.post("/room", middleWare ,async (req,res)=>{
     const parsedData = CreateRoomSchema.safeParse(req.body);
     try{
 
