@@ -9,8 +9,6 @@ async function  getChats(roomId:string){
 }
 
 
-
-
 export async function ChatRoom({id}:{
     id:string
 }){
