@@ -131,7 +131,8 @@ app.post("/room", middleWare ,async (req,res)=>{
 })
 
 app.get("/chats/:roomId", async (req,res)=>{
-    const roomId = Number(req.params.roomId);
+    try {
+        const roomId = Number(req.params.roomId);
 
     const roomExists = await prismaClient.room.findUnique({
         where: { id: roomId }
@@ -157,6 +158,11 @@ app.get("/chats/:roomId", async (req,res)=>{
     res.json({
         messages
     })
+    } catch (error:any) {
+        res.json({
+            message:error.message
+        })
+    }
 })
 
 app.get("/room/:slug", async(req,res) =>{
