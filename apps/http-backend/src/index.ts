@@ -5,10 +5,11 @@ import { middleWare } from "./middleware";
 import { UserSchema, SingInSchema, CreateRoomSchema } from  "@repo/common/config"
 import { prismaClient  } from "@repo/db/client";
 import bcrypt  from "bcrypt"
-
+import cors from "cors"
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 const saltRounds= 5;
 
 app.post("/signup", async (req,res)=>{
