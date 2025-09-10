@@ -24,7 +24,7 @@ model Room{
   createdAt DateTime    @default(now()) 
   adminID   String
   admin     User        @relation(fields: [adminID], references: [id])
-  chats      Chat[]
+  chats     Chat[]
 }
 
 model Chat{

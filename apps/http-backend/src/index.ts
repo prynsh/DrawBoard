@@ -76,7 +76,6 @@ app.post("/signin", async (req,res)=>{
     const token = jwt.sign({
         userId : user?.id
     },JWT_SECRET);
-
     res.json({
         token
     })
