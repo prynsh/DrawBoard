@@ -21,6 +21,7 @@
 
 import { useEffect, useRef } from "react";
 import { initDraw } from "../draw";
+import Toolbar from "./Toobar";
 
 export default function Canvas({ roomId, socket }: { roomId: string; socket: WebSocket }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -47,10 +48,18 @@ export default function Canvas({ roomId, socket }: { roomId: string; socket: Web
   }, [ roomId, socket]);
 
   return (
+    <>
+    <div className="relative">
+
     <canvas
       ref={canvasRef}
       style={{ display: 'block',width:"100vw",height:"100vh" }}
-    />
+      />
+      </div>
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-52  items-center">
+    <Toolbar/>
+      </div>
+      </>
   );
 }
 

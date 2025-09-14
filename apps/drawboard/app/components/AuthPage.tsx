@@ -48,14 +48,13 @@ const onSubmit: SubmitHandler<AuthFormInputs> = async (data) => {
 
   return (
     <>
-    <h2 className="text-center text-4xl py-10">DrawBoard</h2>
+    <h2 className="text-center text-4xl py-10 italic">DrawBoard</h2>
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-full max-w-4xl">
       
       <div className="flex w-screen justify-center items-center">
         <div className="space-y-2 border rounded-2xl max-w-md w-full p-10">
 
-      <h1 className="text-center text-5xl">Create your<br/> <span className="italic">Free</span> Account</h1>
-      {isSignin?(<p className="text-center">New to Drawboard?{" "}<Link className="underline" href={"/signup"}>SignUp</Link></p>):(<p className="text-center">Already a user?{" "} <Link href={"/signin"} className="underline">SignIn</Link></p>)}
+      {isSignin?(<h1 className="text-center text-5xl pb-10 pt-5">Log Into <br/><span className="italic">Your</span> Account</h1>):(<h1 className="text-center text-5xl pb-10 pt-5">Create your<br/> <span className="italic">Free</span> Account</h1>)}
 
       {!isSignin && (<div>
         <label>Name</label>
@@ -92,6 +91,7 @@ const onSubmit: SubmitHandler<AuthFormInputs> = async (data) => {
       <button type="submit" className="bg-black text-white p-2 rounded-full w-full">
         {isSignin ? "Sign In" : "Sign Up"}
       </button>
+          {isSignin?(<p className="text-center">New to Drawboard?{" "}<Link className="underline" href={"/signup"}>SignUp</Link></p>):(<p className="text-center">Already a user?{" "} <Link href={"/signin"} className="underline">SignIn</Link></p>)}
             </div>
       </div>
     </form>
